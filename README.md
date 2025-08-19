@@ -1,6 +1,15 @@
 # Prometheus + Grafana Monitoring Stack
 
-This repository contains a customized Helm chart that wraps the excellent community-maintained Prometheus monitoring charts with opinionated defaults for production Kubernetes monitoring.
+This repository is contains a customized Helm chart that wraps the excellent community-maintained Prometheus monitoring charts with opinionated defaults for production Kubernetes monitoring.
+
+## Repository Purpose
+
+This is both a **demonstration/learning repository** and a configuration that I use while learning in my own Kubernetes clusters. The customizations focus on:
+
+- **Persistent storage** - Default charts use ephemeral storage
+- **Extended retention** - 30 days vs default 10 days  
+- **Database monitoring** - PostgreSQL exporter for external databases
+- **Production-ready values** - Separate configurations for dev/staging/production
 
 ## What This Repository Provides
 
@@ -11,7 +20,7 @@ This is **not a custom implementation** - it's a thin wrapper around the battle-
 
 ### What Gets Installed
 
-When you deploy this chart, you get a complete monitoring stack:
+Deploying this chart gives the following monitoring stack:
 
 **Core Components (from kube-prometheus-stack):**
 - **Prometheus Server** - Metrics collection and storage with 30-day retention
@@ -26,18 +35,9 @@ When you deploy this chart, you get a complete monitoring stack:
 - **Persistent Storage** - Retains metrics and Grafana dashboards across pod restarts
 - **Service Discovery** - Automatically discovers applications with Prometheus annotations
 
-## Why Use Community Charts?
-
-✅ **Maintained by experts** - The Prometheus community actively maintains these charts  
-✅ **Battle-tested** - Used by thousands of organizations worldwide  
-✅ **Regular updates** - Security patches, bug fixes, and new features  
-✅ **Best practices** - Follows Kubernetes and Prometheus recommendations  
-✅ **Pre-built dashboards** - Comprehensive Grafana dashboards included  
-✅ **Sensible defaults** - Works out of the box with minimal configuration  
-
 ## Repository Purpose
 
-This is both a **demonstration/learning repository** and a **production-ready configuration** that I use in my own Kubernetes clusters. The customizations focus on:
+This is both a **demonstration/learning repository** and a configuration that I use while learning in my own Kubernetes clusters. The customizations focus on:
 
 - **Persistent storage** - Default charts use ephemeral storage
 - **Extended retention** - 30 days vs default 10 days  
