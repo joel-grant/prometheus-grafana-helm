@@ -1,0 +1,50 @@
+# Values for prometheus-grafana-monitoring using community charts
+# Only override what you actually need to change from defaults
+
+# Enable PostgreSQL monitoring
+postgresql:
+  enabled: true
+
+# Main Prometheus stack configuration
+kube-prometheus-stack:
+  # Prometheus server configuration
+  prometheus:
+    prometheusSpec:
+      # Storage configuration - community chart defaults to no persistence
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: ""  # Use default storage class
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 50Gi
+      
+      # Retention settings - override defaults of 10d
+      retention: 30d
+      retentionSize: 45GB
+
+  # Grafana configuration
+  grafana:
+    # Change default admin password
+    adminPassword: "admin"  # Change this in production!
+    
+    # Enable persistence (disabled by default)
+    persistence:
+      enabled: true
+      size: 10Gi
+
+# PostgreSQL Exporter for Digital Ocean database
+prometheus-postgres-exporter:
+  config:
+    # Create secret with: kubectl create secret generic postgres-secret \
+    #   --from-literal=DATA_SOURCE_NAME="postgresql://user:pass@host:25060/db?sslmode=require"
+    datasourceSecret:
+      name: "postgres-secret"
+      key: "DATA_SOURCE_NAME"
+  
+  # Service monitor to scrape metrics
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+    interval: 30s

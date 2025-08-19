@@ -1,0 +1,41 @@
+# Development values for prometheus-grafana-monitoring  
+# Smaller resource limits and simplified configuration for development
+
+# Disable PostgreSQL monitoring in development by default
+postgresql:
+  enabled: false
+
+kube-prometheus-stack:
+  # Prometheus configuration for development
+  prometheus:
+    prometheusSpec:
+      # Smaller storage for development
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: ""  # Use default storage class
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 10Gi
+      
+      # Shorter retention for development
+      retention: 7d
+      retentionSize: 8GB
+
+  # Grafana development configuration
+  grafana:
+    # Keep default admin password for dev
+    adminPassword: "admin"
+    
+    # Smaller persistence
+    persistence:
+      enabled: true
+      size: 2Gi
+
+# PostgreSQL exporter (when enabled)
+prometheus-postgres-exporter:
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+    interval: 60s  # Less frequent scraping in development
